@@ -13,7 +13,6 @@
     <h1 class="text">Cimade</h1>
     <h2>Cours de Francais</h2>
     <?php
-     $sexe = isset($_POST['sexe']) ? $_POST['sexe'] : NULL;
      $prenom = isset($_POST['prenom']) ? $_POST['prenom'] : NULL;
      $nom = isset($_POST['nom']) ? $_POST['nom'] : NULL;
      $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : NULL;
@@ -29,9 +28,12 @@
 
      if ($ok) {
        // TODO: save the data
+       $fp = fopen('/tmp/file.csv', 'aw');
+       fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
+       fclose($fp);
 
        // TODO display summary 
-       echo "votre rendez vous a ete pris";
+       echo "votre rendez vous a ete pris pour : ";
 
        }
      } // ... "POST"
@@ -42,19 +44,15 @@
     <p>Rendez-vous d'inscription:</p>
 
     <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
-      <input type="radio" name="sexe" id="mr" value="mr">
-      <label for="mr">Mr</label>
-      <input type="radio" name="sexe" id="mme" value="mme">
-      <label for="mme">Mme</label>
       <label style="margin-left:1em" for="prenom">Prenom:</label>
       <input type="text" name="prenom" id="prenom" value="<?php echo htmlentities($prenom) ?>">
       <label style="margin-left:1em" for="nom">Nom:</label>
-      <input type="text" name="nom" id="nom"><br>
+      <input type="text" name="nom" id="nom" value="<?php echo htmlentities($nom) ?>"><br>
       <label style="" for="telephone">Telephone:</label>
-      <input type="text" name="telephone" id="telephone">
+      <input type="text" name="telephone" id="telephone" value="<?php echo htmlentities($telephone) ?>">
       <p style="display:inline; margin-left: 1em;">et/out</p>
       <label style="margin-left:1em" for="email">Email:</label>
-      <input type="text" name="email" id="email">
+      <input type="text" name="email" id="email" value="<?php echo htmlentities($email) ?>">
       <br/>
       <table class="horaire" border="3" cellspacing="4" align="left">
         <tr>
@@ -68,7 +66,7 @@
             <label for="mer15h" disabled>15h</label>
             <p>Complet</p>
           </td>
-          <td class="libre"><input type="radio" name="horaire" id="jeu15h" value="jeu15h">
+          <td class="libre"><input type="radio" name="horaire" id="jeu15h" value="jeu15h" checked>
             <label for="jeu15h">15h</label>
             <p>libre</p>
           </td class="">
