@@ -5,6 +5,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Cimade - Francais</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
       <link rel="stylesheet" type="text/css" href="style.css">
     </head>
 
@@ -27,7 +28,7 @@
       <p style="display:inline; margin-left: 1em;">et/out</p>
       <label style="margin-left:1em" for="email">Email:</label>
       <input type="text" name="email" id="email">
-      
+      <br/>
       <table class="horaire" border="3" cellspacing="4" align="left">
         <tr>
           <th>Mercredi</th>
