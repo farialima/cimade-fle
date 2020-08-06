@@ -1,0 +1,32 @@
+body {
+  padding-left: 2em;
+  padding-top: 1em;
+}
+
+.libre {
+  background-color: #02b538;
+}
+
+.complet {
+  background-color: #ed5f5f;
+}
+
+
+.text {
+  align-self: center;
+}
+
+.horaire {
+  margin-top: 1em;
+  width: 40%;
+  padding: 1em;
+}
+
+td, th {
+  text-align: center;
+  padding: 0.25em 1em;
+}
+
+th {
+  background-color: #a8e0f7;
+}
