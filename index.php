@@ -32,7 +32,7 @@
        $complet = complet($hour);
        echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
        echo '          <input type="radio" name="horaire" id="' . $hour . '" value="' . $hour . '"' . ($complet ? ' disabled' : '') . '>'."\n";
-       echo '          <label for="$hout"' . ($complet ? ' disabled' : '') . '>' . $display . '</label>'."\n";
+       echo '          <label for="' . $hour . '"' . ($complet ? ' disabled' : '') . '>' . $display . '</label>'."\n";
        echo '          ' . ($complet ? '<p>Complet</p>' : '<p>Libre</p>')."\n";
        echo '          </td>'."\n";
      }
