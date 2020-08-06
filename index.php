@@ -13,28 +13,63 @@
     <h1 class="text">Cimade</h1>
     <h2>Cours de Francais</h2>
     <?php
+     $hours = array();
+     if (($handle = fopen("/tmp/file.csv", "r")) !== FALSE) {
+       while (($data = fgetcsv($handle)) !== FALSE) {
+         $hours[] = $data[4];
+       }
+     }
+     fclose($handle);
+
+     $hours_count = array_count_values($hours);
+
+     function complet($hour) {
+       global $hours_count;
+       return isset($hours_count[$hour]) && ($hours_count[$hour] > 1);
+     }
+
+     function display_td($hour, $display) {
+       $complet = complet($hour);
+       echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
+       echo '          <input type="radio" name="horaire" id="' . $hour . '" value="' . $hour . '"' . ($complet ? ' disabled' : '') . '>'."\n";
+       echo '          <label for="$hout"' . ($complet ? ' disabled' : '') . '>' . $display . '</label>'."\n";
+       echo '          ' . ($complet ? '<p>Complet</p>' : '<p>Libre</p>')."\n";
+       echo '          </td>'."\n";
+     }
+
      $prenom = isset($_POST['prenom']) ? $_POST['prenom'] : NULL;
      $nom = isset($_POST['nom']) ? $_POST['nom'] : NULL;
      $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : NULL;
      $email = isset($_POST['email']) ? $_POST['email'] : NULL;
      $horaire = isset($_POST['horaire']) ? $_POST['horaire'] : NULL;
      $ok = true;
+    
+     echo "<div style='error'>\n";
      if ($_SERVER["REQUEST_METHOD"] == "POST") {
-     if (empty($prenom) || empty($nom)) {
-        echo "Entrez votre nom et prenom";
-        $ok = false;
-     }
-     // TODO: more validation
+       if (empty($prenom) || empty($nom)) {
+          echo "<p>Entrez votre nom et prenom.</p>\n";
+          $ok = false;
+       }
+       // TODO: more validation
+       // - first name and last name longer than 2 characters
+       // - either email or phone number
+       // - if email present, email format is correct
+       // - if phone number present, phone number is correct
+       // - maybe more :)
 
-     if ($ok) {
-       // TODO: save the data
-       $fp = fopen('/tmp/file.csv', 'aw');
-       fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
-       fclose($fp);
-
-       // TODO display summary 
-       echo "votre rendez vous a ete pris pour : ";
-
+       if (complet($horaire)) {
+          echo "<p>Le creneau choisi est complet, choisissez un autre creneau.</p>\n";
+          $ok = false;
+       }
+       echo "</div>\n";
+  
+       if ($ok) {
+         $fp = fopen('/tmp/file.csv', 'aw');
+         fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
+         fclose($fp);
+  
+         echo "votre rendez vous a ete pris pour : ";
+         // TODO display summary 
        }
      } // ... "POST"
 
@@ -62,112 +97,52 @@
           <th>Samedi</th>
         </tr>
         <tr>
-          <td class="complet"><input type="radio" name="horaire" id="mer15h" value="mer15h" disabled>
-            <label for="mer15h" disabled>15h</label>
-            <p>Complet</p>
-          </td>
-          <td class="libre"><input type="radio" name="horaire" id="jeu15h" value="jeu15h" checked>
-            <label for="jeu15h">15h</label>
-            <p>libre</p>
-          </td class="">
-          <td class=""><input type="radio" name="horaire" id="ven15h" value="ven15h">
-            <label for="ven15h">15h</label>
-            <p></p>
-          </td>
-          <td class=""><input type="radio" name="horaire" id="sam15h" value="sam15h">
-            <label for="sam15h">15h</label>
-            <p></p>
-          </td>
+          <?php
+           display_td("mer15h", "15h");
+           display_td("jeu15h", "15h");
+           display_td("ven15h", "15h");
+           display_td("sam15h", "15h");
+           ?>
         </tr>
         <tr>
-          <td class="libre"><input type="radio" name="horaire" id="mer15h30" value="mer15h30">
-            <label for="mer15h30">15h30</label>
-            <p>Libre</p>
-          </td>
-          <td class=""><input type="radio" name="horaire" id="jeu15h30" value="jeu15h30">
-            <label for="jeu15h30">15h30</label>
-            <p></p>
-          </td>
-          <td class=""><input type="radio" name="horaire" id="ven15h30" value="ven15h30">
-            <label for="ven15h30">15h30</label>
-            <p></p>
-          </td>
-          <td class=""><input type="radio" name="horaire" id="sam15h30" value="sam15h30">
-            <label for="sam15h30">15h30</label>
-            <p></p>
-          </td>
+          <?php
+           display_td("mer15h30", "15h30");
+           display_td("jeu15h30", "15h30");
+           display_td("ven15h30", "15h30");
+           display_td("sam15h30", "15h30");
+           ?>
         </tr>
         <tr>
-          <td><input type="radio" name="horaire" id="mer16h" value="mer16h">
-            <label for="mer16h">16h</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="jeu16h" value="jeu16h">
-            <label for="jeu16h">16h</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="ven16h" value="ven16h">
-            <label for="ven16h">16h</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="sam16h" value="sam16h">
-            <label for="sam16h">16h</label>
-            <p></p>
-          </td>
+          <?php
+           display_td("mer16h", "16h");
+           display_td("jeu16h", "16h");
+           display_td("ven16h", "16h");
+           display_td("sam16h", "16h");
+           ?>
         </tr>
         <tr>
-          <td><input type="radio" name="horaire" id="mer16h30" value="mer16h30">
-            <label for="mer16h30">16h30</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="jeu16h30" value="jeu16h30">
-            <label for="jeu16h30">16h30</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="ven16h30" value="ven16h30">
-            <label for="ven16h30">16h30</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="sam16h30" value="sam16h30">
-            <label for="sam16h30">16h30</label>
-            <p></p>
-          </td>
+          <?php
+           display_td("mer16h30", "16h30");
+           display_td("jeu16h30", "16h30");
+           display_td("ven16h30", "16h30");
+           display_td("sam16h30", "16h30");
+           ?>
         </tr>
         <tr>
-          <td><input type="radio" name="horaire" id="mer17h" value="mer17h">
-            <label for="mer17h">17h</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="jeu17h" value="jeu17h">
-            <label for="jeu17h">17h</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="ven17h" value="ven17h">
-            <label for="ven17h">17h</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="sam17h" value="sam17h">
-            <label for="sam17h">17h</label>
-            <p></p>
-          </td>
+          <?php
+           display_td("mer17h", "17h");
+           display_td("jeu17h", "17h");
+           display_td("ven17h", "17h");
+           display_td("sam17h", "17h");
+           ?>
         </tr>
         <tr>
-          <td><input type="radio" name="horaire" id="mer17h30" value="mer17h30">
-            <label for="mer17h30">17h30</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="jeu17h30" value="jeu17h30">
-            <label for="jeu17h30">17h30</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="ven17h30" value="ven17h30">
-            <label for="ven17h30">17h30</label>
-            <p></p>
-          </td>
-          <td><input type="radio" name="horaire" id="sam17h30" value="sam17h30">
-            <label for="sam17h30">17h30</label>
-            <p></p>
-          </td>
+          <?php
+           display_td("mer17h30", "17h30");
+           display_td("jeu17h30", "17h30");
+           display_td("ven17h30", "17h30");
+           display_td("sam17h30", "17h30");
+           ?>
         </tr>
       </table> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
       <input style="" type="submit" value="Finir">
