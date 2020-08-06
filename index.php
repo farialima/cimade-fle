@@ -12,15 +12,42 @@
   <body>
     <h1 class="text">Cimade</h1>
     <h2>Cours de Francais</h2>
+    <?php
+     $sexe = isset($_POST['sexe']) ? $_POST['sexe'] : NULL;
+     $prenom = isset($_POST['prenom']) ? $_POST['prenom'] : NULL;
+     $nom = isset($_POST['nom']) ? $_POST['nom'] : NULL;
+     $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : NULL;
+     $email = isset($_POST['email']) ? $_POST['email'] : NULL;
+     $horaire = isset($_POST['horaire']) ? $_POST['horaire'] : NULL;
+     $ok = true;
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+     if (empty($prenom) || empty($nom)) {
+        echo "Entrez votre nom et prenom";
+        $ok = false;
+     }
+     // TODO: more validation
+
+     if ($ok) {
+       // TODO: save the data
+
+       // TODO display summary 
+       echo "votre rendez vous a ete pris";
+
+       }
+     } // ... "POST"
+
+     if (!($_SERVER["REQUEST_METHOD"] == "POST") || !($ok)) {
+     ?>
+
     <p>Rendez-vous d'inscription:</p>
 
-    <form action="">
+    <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
       <input type="radio" name="sexe" id="mr" value="mr">
       <label for="mr">Mr</label>
       <input type="radio" name="sexe" id="mme" value="mme">
       <label for="mme">Mme</label>
       <label style="margin-left:1em" for="prenom">Prenom:</label>
-      <input type="text" name="prenom" id="prenom">
+      <input type="text" name="prenom" id="prenom" value="<?php echo htmlentities($prenom) ?>">
       <label style="margin-left:1em" for="nom">Nom:</label>
       <input type="text" name="nom" id="nom"><br>
       <label style="" for="telephone">Telephone:</label>
@@ -147,6 +174,7 @@
       </table> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
       <input style="" type="submit" value="Finir">
     </form>
+    <?php  } ?>
   </body>
 
 </html>
