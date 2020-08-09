@@ -1,6 +1,19 @@
 body {
   padding-left: 2em;
   padding-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
+
+.error {
+  color: red;
+  font-size: 2em;
+
+}
+.submit {
+  display: flex;
+  vertical-align: bottom;
 }
 
 .libre {
