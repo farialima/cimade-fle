@@ -9,8 +9,8 @@ body {
 .error {
   color: red;
   font-size: 2em;
-
 }
+
 .submit {
   display: flex;
   vertical-align: bottom;
