@@ -14,12 +14,14 @@
     <h2>Cours de Français</h2>
     <?php
      $hours = array();
-     if (($handle = fopen("C:/wamp64/tmp/file.csv", "r")) !== FALSE) {
+     $csv_file = dirname(__FILE__).DIRECTORY_SEPARATOR.'rendezvous.csv';
+
+     if (($handle = fopen($csv_file, "r")) !== FALSE) {
        while (($data = fgetcsv($handle)) !== FALSE) {
          $hours[] = $data[4];
        }
+       fclose($handle);
      }
-     fclose($handle);
 
      $hours_count = array_count_values($hours);
 
@@ -72,7 +74,7 @@
        echo "</div>\n";
 
        if ($ok) {
-         $fp = fopen('C:wamp64/tmp/file.csv', 'aw');
+         $fp = fopen($csv_file, 'aw');
          fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
          fclose($fp);
 
