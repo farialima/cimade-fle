@@ -10,8 +10,8 @@
     </head>
 
   <body>
-    <h1 class="text">Cimade</h1>
-    <h2>Cours de Français</h2>
+    <h3 class="text">Cimade Lyon</h3>
+    <h4>Rendez-vous d'inscriptions pour les cours de français 2020-2021</h4>
     <?php
      $hours = array();
      $csv_file = dirname(__FILE__).DIRECTORY_SEPARATOR.'rendezvous.csv';
@@ -79,10 +79,7 @@
      if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
      ?>
 
-    <p>Rendez-vous d'inscription:</p>
-
-    <p>Remplissez les informations ci-dessous pour venir vous inscrire aux cours de Français de la Cimade Lyon</p>
-    <p>Donnez votre nom et votre prénom, et, soit un numéro de téléphone, soit une adresse email où vous pouvez être joint</p>
+    <p>Remplissez les informations ci-dessous pour venir vous inscrire aux cours de Français de la Cimade Lyon. Donnez votre nom et votre prénom, et, soit un numéro de téléphone, soit une adresse email où vous pouvez être joint.</p><p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l'heure de votre rendez-vous. Merci !</p>
     <p><p>
     <?php
      if ($error) {
@@ -104,7 +101,7 @@
       <input type="text" name="email" id="email" value="<?php echo htmlentities($email) ?>">
       <br/>
       <table class="horaire" border="3" cellspacing="4" align="left">
-        <caption><input class="submit" style="" type="submit" value="Finir"></caption>
+        <caption><input class="submit" style="" type="submit" value="Réserver le créneau"></caption>
         <tr>
           <th>Mercredi</th>
           <th>Jeudi</th>
