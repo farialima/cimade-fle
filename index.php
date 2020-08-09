@@ -37,8 +37,9 @@
      $horaire = isset($_POST['horaire']) ? $_POST['horaire'] : "";
      $error = '';
 
-     function display_td($hour, $display) {
+     function display_td($hour) {
        global $horaire;
+       $display = explode("_", $hour)[1];
        $complet = complet($hour);
        echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
        echo '          <input type="radio" name="horaire" id="' . $hour . '" value="' . $hour . '"' . ($complet ? ' disabled' : '') . (($horaire == $hour) ? ' checked' : '') . '>'."\n";
@@ -65,29 +66,32 @@
           $error .= "<p>Le creneau choisi est complet, choisissez un autre creneau.</p>\n";
        }
 
-       if ($error) {
-         echo "<div class='error'>\n";
-         echo "<p>Veuillez corriger les erreurs et sauvez de nouveau :</p>";
-         echo $error;
-         echo "</div>\n";
-       }
-       else {
+       if (!$error) {
          $fp = fopen($csv_file, 'aw');
          fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
          fclose($fp);
 
-         echo "Votre rendez vous a ete pris pour " . $horaire . " ";
-         // TODO display summary
-       }
+         echo "Votre rendez vous a été pris pour " . explode("_", $horaire)[0] . " à " . explode("_", $horaire)[1] . ".";
 
+        }
      } // ... "POST"
-
 
      if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
      ?>
 
     <p>Rendez-vous d'inscription:</p>
 
+    <p>Remplissez les informations ci-dessous pour venir vous inscrire aux cours de Français de la Cimade Lyon</p>
+    <p>Donnez votre nom et votre prénom, et, soit un numéro de téléphone, soit une adresse email où vous pouvez être joint</p>
+    <p><p>
+    <?php
+     if ($error) {
+         echo "<div class='error'>\n";
+         echo "<p>Veuillez corriger les erreurs et sauvez de nouveau :</p>";
+         echo $error;
+         echo "</div>\n";
+       }
+    ?>
     <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
       <label style="margin-left:1em" for="prenom">Prénom:</label>
       <input type="text" name="prenom" id="prenom" value="<?php echo htmlentities($prenom) ?>">
@@ -109,50 +113,50 @@
         </tr>
         <tr>
           <?php
-           display_td("mer15h", "15h");
-           display_td("jeu15h", "15h");
-           display_td("ven15h", "15h");
-           display_td("sam15h", "15h");
+           display_td("Mercredi_15h");
+           display_td("Jeudi_15h");
+           display_td("Vendredi_15h");
+           display_td("Samedi_15h");
            ?>
         </tr>
         <tr>
           <?php
-           display_td("mer15h30", "15h30");
-           display_td("jeu15h30", "15h30");
-           display_td("ven15h30", "15h30");
-           display_td("sam15h30", "15h30");
+           display_td("Mercredi_15h30");
+           display_td("Jeudi_15h30");
+           display_td("Vendredi_15h30");
+           display_td("Samedi_15h30");
            ?>
         </tr>
         <tr>
           <?php
-           display_td("mer16h", "16h");
-           display_td("jeu16h", "16h");
-           display_td("ven16h", "16h");
-           display_td("sam16h", "16h");
+           display_td("Mercredi_16h");
+           display_td("Jeudi_16h");
+           display_td("Vendredi_16h");
+           display_td("Samedi_16h");
            ?>
         </tr>
         <tr>
           <?php
-           display_td("mer16h30", "16h30");
-           display_td("jeu16h30", "16h30");
-           display_td("ven16h30", "16h30");
-           display_td("sam16h30", "16h30");
+           display_td("Mercredi_16h30");
+           display_td("Jeudi_16h30");
+           display_td("Vendredi_16h30");
+           display_td("Samedi_16h30");
            ?>
         </tr>
         <tr>
           <?php
-           display_td("mer17h", "17h");
-           display_td("jeu17h", "17h");
-           display_td("ven17h", "17h");
-           display_td("sam17h", "17h");
+           display_td("Mercredi_17h");
+           display_td("Jeudi_17h");
+           display_td("Vendredi_17h");
+           display_td("Samedi_17h");
            ?>
         </tr>
         <tr>
           <?php
-           display_td("mer17h30", "17h30");
-           display_td("jeu17h30", "17h30");
-           display_td("ven17h30", "17h30");
-           display_td("sam17h30", "17h30");
+           display_td("Mercredi_17h30");
+           display_td("Jeudi_17h30");
+           display_td("Vendredi_17h30");
+           display_td("Samedi_17h30");
            ?>
         </tr>
       </table>
