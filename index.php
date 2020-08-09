@@ -35,7 +35,7 @@
      $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : "";
      $email = isset($_POST['email']) ? $_POST['email'] : "";
      $horaire = isset($_POST['horaire']) ? $_POST['horaire'] : "";
-     $ok = true;
+     $error = '';
 
      function display_td($hour, $display) {
        global $horaire;
@@ -49,30 +49,29 @@
 
 
      if ($_SERVER["REQUEST_METHOD"] == "POST") {
-       echo "<div class='error'>\n";
        if (empty($prenom) || empty($nom) || (strlen($prenom) < 2) || (strlen($nom) < 2)) {
-          echo "<p>Entrez votre nom et prénom.</p>\n";
-          $ok = false;
+          $error .= "<p>Entrez votre nom et prénom.</p>\n";
        }
 
        $num = preg_replace("/[^0-9]/", "", "$telephone");
        if ((strlen($num) < 6) && (!filter_var($email, FILTER_VALIDATE_EMAIL)) ) {
-          echo "<p>Eentrer un numéro de téléphone ou un email valide.</p>\n";
-          $ok = false;
+          $error .= "<p>Entrer un numéro de téléphone ou un email valide.</p>\n";
        }
        if (!$horaire) {
-          echo "<p>Choisissez un créneau pour le rendez-vous.</p>\n";
-          $ok = false;
+          $error .= "<p>Choisissez un créneau pour le rendez-vous.</p>\n";
         }
 
        if (complet($horaire)) {
-          echo "<p>Le creneau choisi est complet, choisissez un autre creneau.</p>\n";
-          $ok = false;
+          $error .= "<p>Le creneau choisi est complet, choisissez un autre creneau.</p>\n";
        }
 
-       echo "</div>\n";
-
-       if ($ok) {
+       if ($error) {
+         echo "<div class='error'>\n";
+         echo "<p>Veuillez corriger les erreurs et sauvez de nouveau :</p>";
+         echo $error;
+         echo "</div>\n";
+       }
+       else {
          $fp = fopen($csv_file, 'aw');
          fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
          fclose($fp);
@@ -84,7 +83,7 @@
      } // ... "POST"
 
 
-     if (!($_SERVER["REQUEST_METHOD"] == "POST") || !($ok)) {
+     if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
      ?>
 
     <p>Rendez-vous d'inscription:</p>
