@@ -55,7 +55,7 @@
        }
 
        $num = preg_replace("/[^0-9]/", "", "$telephone");
-       if ((strlen($num) < 6) || (!filter_var($email, FILTER_VALIDATE_EMAIL)) ) {
+       if ((strlen($num) < 6) && (!filter_var($email, FILTER_VALIDATE_EMAIL)) ) {
           echo "<p>Veuillez rentrer un numéro de téléphone ou un email valide.</p>\n";
           $ok = false;
         }
