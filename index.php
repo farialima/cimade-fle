@@ -95,10 +95,10 @@
       <label style="margin-left:1em" for="nom">Nom:</label>
       <input type="text" name="nom" id="nom" value="<?php echo htmlentities($nom) ?>"><br>
       <label style="" for="telephone">Téléphone:</label>
-      <input type="text" name="telephone" id="telephone" value="<?php echo htmlentities($telephone) ?>">
+      <input type="text" name="telephone" id="telephone" placeholder="06 xx xx xx xx" value="<?php echo htmlentities($telephone) ?>">
       <p style="display:inline; margin-left: 1em;">et/ou</p>
       <label style="margin-left:1em" for="email">Email:</label>
-      <input type="text" name="email" id="email" value="<?php echo htmlentities($email) ?>">
+      <input type="text" name="email" id="email" placeholder="nom@adresse.com" value="<?php echo htmlentities($email) ?>">
       <br/>
       <table class="horaire" border="3" cellspacing="4" align="left">
         <caption><input class="submit" style="" type="submit" value="Réserver le créneau"></caption>
