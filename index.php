@@ -30,21 +30,22 @@
        return isset($hours_count[$hour]) && ($hours_count[$hour] > 1);
      }
 
-     function display_td($hour, $display) {
-       $complet = complet($hour);
-       echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
-       echo '          <input type="radio" name="horaire" id="' . $hour . '" value="' . $hour . '"' . ($complet ? ' disabled' : '') . 'checked>'."\n";
-       echo '          <label for="' . $hour . '"' . ($complet ? ' disabled' : '') . '>' . $display . '</label>'."\n";
-       echo '          ' . ($complet ? '<p>Complet</p>' : '<p>Disponible</p>')."\n";
-       echo '          </td>'."\n";
-     }
-
      $prenom = isset($_POST['prenom']) ? $_POST['prenom'] : "";
      $nom = isset($_POST['nom']) ? $_POST['nom'] : "";
      $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : "";
      $email = isset($_POST['email']) ? $_POST['email'] : "";
      $horaire = isset($_POST['horaire']) ? $_POST['horaire'] : "";
      $ok = true;
+
+     function display_td($hour, $display) {
+       global $horaire;
+       $complet = complet($hour);
+       echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
+       echo '          <input type="radio" name="horaire" id="' . $hour . '" value="' . $hour . '"' . ($complet ? ' disabled' : '') . (($horaire == $hour) ? ' checked' : '') . '>'."\n";
+       echo '          <label for="' . $hour . '"' . ($complet ? ' disabled' : '') . '>' . $display . '</label>'."\n";
+       echo '          ' . ($complet ? '<p>Complet</p>' : '<p>Disponible</p>')."\n";
+       echo '          </td>'."\n";
+     }
 
 
      if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -56,15 +57,13 @@
 
        $num = preg_replace("/[^0-9]/", "", "$telephone");
        if ((strlen($num) < 6) && (!filter_var($email, FILTER_VALIDATE_EMAIL)) ) {
-          echo "<p>Veuillez rentrer un numéro de téléphone ou un email valide.</p>\n";
+          echo "<p>Eentrer un numéro de téléphone ou un email valide.</p>\n";
+          $ok = false;
+       }
+       if (!$horaire) {
+          echo "<p>Choisissez un créneau pour le rendez-vous.</p>\n";
           $ok = false;
         }
-       // TODO: more validation
-       // DONE: first name and last name longer than 2 characters
-       // TODO either email or phone number
-       // - if email present, email format is correct
-       // - if phone number present, phone number is correct
-       // - maybe more :)
 
        if (complet($horaire)) {
           echo "<p>Le creneau choisi est complet, choisissez un autre creneau.</p>\n";
