@@ -63,7 +63,7 @@
         }
 
        if (complet($horaire)) {
-          $error .= "<p>Le creneau choisi est complet, choisissez un autre creneau.</p>\n";
+          $error .= "<p>Choisissez un jour et une heure pour le rendez-vous.</p>\n";
        }
 
        if (!$error) {
@@ -72,14 +72,16 @@
          fclose($fp);
 
          echo "Votre rendez vous a été pris pour " . explode("_", $horaire)[0] . " à " . explode("_", $horaire)[1] . ".";
-
+         echo "Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme).";
+         echo "Si vous ne pouvez pas venir, merci de nous envoyer un mail à fle.lyon@lacimade.org pour annuler.";
         }
      } // ... "POST"
 
      if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
      ?>
 
-    <p>Remplissez les informations ci-dessous pour venir vous inscrire aux cours de Français de la Cimade Lyon. Donnez votre nom et votre prénom, et, soit un numéro de téléphone, soit une adresse email où vous pouvez être joint.</p><p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l'heure de votre rendez-vous. Merci !</p>
+    <p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email ; et choisir un jour et une heure de rendez-vous.</p>
+    <p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l'heure de votre rendez-vous. Merci !</p>
     <p><p>
     <?php
      if ($error) {
@@ -101,7 +103,7 @@
       <input type="text" name="email" id="email" value="<?php echo htmlentities($email) ?>">
       <br/>
       <table class="horaire" border="3" cellspacing="4" align="left">
-        <caption><input class="submit" style="" type="submit" value="Réserver le créneau"></caption>
+        <caption><input class="submit" style="" type="submit" value="Confirmer le rendez-vous"></caption>
         <tr>
           <th>Mercredi</th>
           <th>Jeudi</th>
