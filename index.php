@@ -79,22 +79,16 @@
          fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
          fclose($fp);
 
-<<<<<<< HEAD
          echo "<p>Votre rendez vous a été pris pour " . explode("_", $horaire)[0] . " à " . explode("_", $horaire)[1] . ", pour " . $prenom . " " . $nom . " (" . $email . "," . $telephone . ").</p>";
          echo "<p>Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme).</p>";
          echo "<p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à fle.lyon@lacimade.org pour annuler.</p>";
-=======
-         echo "Votre rendez vous a été pris pour " . explode("_", $horaire)[0] . " à " . explode("_", $horaire)[1] . ".";
-         echo "Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme).";
-         echo "Si vous ne pouvez pas venir, merci de nous envoyer un mail à fle.lyon@lacimade.org pour annuler.";
->>>>>>> 330d21b004ec058fb3e2961af0061e13ec9208d8
         }
      } // ... "POST"
 
      if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
      ?>
 
-    <p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email ; et choisir un jour et une heure de rendez-vous.</p>
+    <p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email&nbsp;; et choisir un jour et une heure de rendez-vous.</p>
     <p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l'heure de votre rendez-vous. Merci !</p>
     <p><p>
     <?php
