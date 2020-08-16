@@ -9,6 +9,14 @@
       <link rel="stylesheet" type="text/css" href="style.css">
     </head>
 
+<!--
+  TODO: - <inscription avant midi le jour même>
+        - creneaux/ dates
+        - Enlever la colonne de chaque jour échu à midi.
+        - Affiche
+        lien à mettre depuis https://www.lacimade.org/activite/les-ateliers-socio-linguistiques-a-s-l/
+
+-->
   <body>
     <h3 class="text">Cimade Lyon</h3>
     <h4>Rendez-vous d'inscriptions pour les cours de français 2020-2021</h4>
@@ -63,7 +71,7 @@
         }
 
        if (complet($horaire)) {
-          $error .= "<p>Le creneau choisi est complet, choisissez un autre creneau.</p>\n";
+          $error .= "<p>Choisissez un jour et une heure pour le rendez-vous.</p>\n";
        }
 
        if (!$error) {
@@ -71,15 +79,23 @@
          fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
          fclose($fp);
 
+<<<<<<< HEAD
+         echo "<p>Votre rendez vous a été pris pour " . explode("_", $horaire)[0] . " à " . explode("_", $horaire)[1] . ", pour " . $prenom . " " . $nom . " (" . $email . "," . $telephone . ").</p>";
+         echo "<p>Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme).</p>";
+         echo "<p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à fle.lyon@lacimade.org pour annuler.</p>";
+=======
          echo "Votre rendez vous a été pris pour " . explode("_", $horaire)[0] . " à " . explode("_", $horaire)[1] . ".";
-
+         echo "Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme).";
+         echo "Si vous ne pouvez pas venir, merci de nous envoyer un mail à fle.lyon@lacimade.org pour annuler.";
+>>>>>>> 330d21b004ec058fb3e2961af0061e13ec9208d8
         }
      } // ... "POST"
 
      if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
      ?>
 
-    <p>Remplissez les informations ci-dessous pour venir vous inscrire aux cours de Français de la Cimade Lyon. Donnez votre nom et votre prénom, et, soit un numéro de téléphone, soit une adresse email où vous pouvez être joint.</p><p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l'heure de votre rendez-vous. Merci !</p>
+    <p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email ; et choisir un jour et une heure de rendez-vous.</p>
+    <p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l'heure de votre rendez-vous. Merci !</p>
     <p><p>
     <?php
      if ($error) {
@@ -101,7 +117,7 @@
       <input type="text" name="email" id="email" placeholder="nom@adresse.com" value="<?php echo htmlentities($email) ?>">
       <br/>
       <table class="horaire" border="3" cellspacing="4" align="left">
-        <caption><input class="submit" style="" type="submit" value="Réserver le créneau"></caption>
+        <caption><input class="submit" style="" type="submit" value="Confirmer le rendez-vous"></caption>
         <tr>
           <th>Mercredi</th>
           <th>Jeudi</th>
