@@ -10,17 +10,32 @@
     </head>
 
 <!--
-  TODO: - <inscription avant midi le jour même>
-        - creneaux/ dates
-        - Enlever la colonne de chaque jour échu à midi.
-        - Affiche
-        lien à mettre depuis https://www.lacimade.org/activite/les-ateliers-socio-linguistiques-a-s-l/
+  TODO: lien à mettre depuis https://www.lacimade.org/activite/les-ateliers-socio-linguistiques-a-s-l/
 
 -->
   <body>
     <h3 class="text">Cimade Lyon</h3>
     <h4>Rendez-vous d'inscriptions pour les cours de français 2020-2021</h4>
     <?php
+     date_default_timezone_set('Europe/Paris');
+     $current_date = new DateTime(date("Y-m-d H:i:s", time()));
+
+     $days = array();
+     if ($current_date < new DateTime('2020-09-14 12:00:00')) {
+       $days[] = 'Lundi 14 septembre';
+     }
+     if ($current_date < new DateTime('2020-09-15 12:00:00')) {
+       $days[] = 'Mardi 15 septembre';
+     }
+     if ($current_date < new DateTime('2020-09-21 12:00:00')) {
+       $days[] = 'Lundi 21 septembre';
+     }
+     if ($current_date < new DateTime('2020-09-22 12:00:00')) {
+       $days[] = 'Mardi 22 septembre';
+     }
+
+     $hour_slots = array("14h", "14h30", "15h", "15h30", "16h", "16h30");
+
      $hours = array();
      $csv_file = dirname(__FILE__).DIRECTORY_SEPARATOR.'rendezvous.csv';
 
@@ -35,7 +50,7 @@
 
      function complet($hour) {
        global $hours_count;
-       return isset($hours_count[$hour]) && ($hours_count[$hour] > 1);
+       return isset($hours_count[$hour]) && ($hours_count[$hour] >= 4);
      }
 
      $prenom = isset($_POST['prenom']) ? $_POST['prenom'] : "";
@@ -45,14 +60,14 @@
      $horaire = isset($_POST['horaire']) ? $_POST['horaire'] : "";
      $error = '';
 
-     function display_td($hour) {
+     function display_td($day, $hour) {
+       $slot = $day  . ' à ' . $hour;
        global $horaire;
-       $display = explode("_", $hour)[1];
-       $complet = complet($hour);
+       $complet = complet($slot);
        echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
-       echo '          <input type="radio" name="horaire" id="' . $hour . '" value="' . $hour . '"' . ($complet ? ' disabled' : '') . (($horaire == $hour) ? ' checked' : '') . '>'."\n";
-       echo '          <label for="' . $hour . '"' . ($complet ? ' disabled' : '') . '>' . $display . '</label>'."\n";
-       echo '          ' . ($complet ? '<p>Complet</p>' : '<p>Disponible</p>')."\n";
+       echo '          <input type="radio" name="horaire" id="' . $slot . '" value="' . $slot . '"' . ($complet ? ' disabled' : '') . (($horaire == $slot) ? ' checked' : '') . '>'."\n";
+       echo '          <label style="margin-bottom: 0" for="' . $slot . '"' . ($complet ? ' disabled' : '') . '>' . $hour . '</label>'."\n";
+       echo '          ' . ($complet ? 'Complet' : 'Disponible')."\n";
        echo '          </td>'."\n";
      }
 
@@ -64,7 +79,7 @@
 
        $num = preg_replace("/[^0-9]/", "", "$telephone");
        if ((strlen($num) < 6) && (!filter_var($email, FILTER_VALIDATE_EMAIL)) ) {
-          $error .= "<p>Entrer un numéro de téléphone ou un email valide.</p>\n";
+          $error .= "<p>Entrez un numéro de téléphone ou un email valide.</p>\n";
        }
        if (!$horaire) {
           $error .= "<p>Choisissez un créneau pour le rendez-vous.</p>\n";
@@ -79,10 +94,13 @@
          fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
          fclose($fp);
 
-         echo "<p>Votre rendez vous a été pris pour " . explode("_", $horaire)[0] . " à " . explode("_", $horaire)[1] . ", pour " . $prenom . " " . $nom . " (" . $email . "," . $telephone . ").</p>";
+         echo "<p/>";
+         echo "<h3>Votre rendez-vous est confirmé</h3>";
+         echo "<p/>";
+         echo "<p>Votre rendez-vous a été pris pour le <b>" . $horaire . "</b>, pour " . $prenom . " " . $nom . " (" . $email . (($email && $telephone) ? ", " : "") . $telephone . ").</p>";
          echo "<p>Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme).</p>";
-         echo "<p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à fle.lyon@lacimade.org pour annuler.</p>";
-        }
+         echo '<p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à <a href="mailto:fle.lyon@lacimade.org">fle.lyon@lacimade.org</a> pour annuler.</p>';
+       }
      } // ... "POST"
 
      if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
@@ -113,59 +131,19 @@
       <table class="horaire" border="3" cellspacing="4" align="left">
         <caption><input class="submit" style="" type="submit" value="Confirmer le rendez-vous"></caption>
         <tr>
-          <th>Mercredi</th>
-          <th>Jeudi</th>
-          <th>Vendredi</th>
-          <th>Samedi</th>
+        <?php foreach ($days as $day) {
+            echo '<th>' . $day . '</th>';
+          } ?>
         </tr>
-        <tr>
-          <?php
-           display_td("Mercredi_15h");
-           display_td("Jeudi_15h");
-           display_td("Vendredi_15h");
-           display_td("Samedi_15h");
-           ?>
-        </tr>
-        <tr>
-          <?php
-           display_td("Mercredi_15h30");
-           display_td("Jeudi_15h30");
-           display_td("Vendredi_15h30");
-           display_td("Samedi_15h30");
-           ?>
-        </tr>
-        <tr>
-          <?php
-           display_td("Mercredi_16h");
-           display_td("Jeudi_16h");
-           display_td("Vendredi_16h");
-           display_td("Samedi_16h");
-           ?>
-        </tr>
-        <tr>
-          <?php
-           display_td("Mercredi_16h30");
-           display_td("Jeudi_16h30");
-           display_td("Vendredi_16h30");
-           display_td("Samedi_16h30");
-           ?>
-        </tr>
-        <tr>
-          <?php
-           display_td("Mercredi_17h");
-           display_td("Jeudi_17h");
-           display_td("Vendredi_17h");
-           display_td("Samedi_17h");
-           ?>
-        </tr>
-        <tr>
-          <?php
-           display_td("Mercredi_17h30");
-           display_td("Jeudi_17h30");
-           display_td("Vendredi_17h30");
-           display_td("Samedi_17h30");
-           ?>
-        </tr>
+      <?php
+      foreach ($hour_slots as $hour_slot) {
+          echo '<tr>';
+          foreach ($days as $day) {
+            display_td($day, $hour_slot);
+          }
+          echo '</tr>';
+        }
+      ?>
       </table>
 
     </form>
