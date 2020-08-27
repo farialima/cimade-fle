@@ -98,7 +98,7 @@
          echo "<h3>Votre rendez-vous est confirmé</h3>";
          echo "<p/>";
          echo "<p>Votre rendez-vous a été pris pour le <b>" . $horaire . "</b>, pour " . $prenom . " " . $nom . " (" . $email . (($email && $telephone) ? ", " : "") . $telephone . ").</p>";
-         echo "<p>Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme).</p>";
+         echo "<p>Venez à l'heure au 33 Rue Imbert-Colomès (Lyon 2eme). <b>Masque obligatoire</b> mais nous pourrons vous en fournir si vous n'en avez pas :).</p>";
          echo '<p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à <a href="mailto:fle.lyon@lacimade.org">fle.lyon@lacimade.org</a> pour annuler.</p>';
        }
      } // ... "POST"
