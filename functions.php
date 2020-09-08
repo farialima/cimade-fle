@@ -20,8 +20,6 @@ function do_page($csv_file, $days, $hour_slots, $info_html, $success_html, $max)
     echo "</div>\n";
   }
   $hours = array();
-  $hours = array();
-  $hours = array();
   if (($handle = fopen($csv_file, "r")) !== FALSE) {
     while (($data = fgetcsv($handle)) !== FALSE) {
       $hours[] = $data[4];
