@@ -9,10 +9,6 @@
       <link rel="stylesheet" type="text/css" href="../style.css">
     </head>
 
-<!--
-  TODO: lien à mettre depuis https://www.lacimade.org/activite/les-ateliers-socio-linguistiques-a-s-l/
-
--->
   <body>
     <h3 class="text">Cimade Lyon</h3>
     <h4>Rendez-vous d'inscriptions pour les cours de français 2020-2021</h4>
@@ -40,7 +36,8 @@
 
    do_page($csv_file, $days, $hour_slots, 
            "<p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email&nbsp;; et choisir un jour et une heure de rendez-vous.</p>\n      <p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l’heure de votre rendez-vous. Merci !</p>",
-           '<p>Venez à l’heure au 33 Rue Imbert-Colomès (Lyon 2eme). <b>Masque obligatoire</b> mais nous pourrons vous en fournir si vous n’en avez pas :).</p><p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à <a href="mailto:fle.lyon@lacimade.org">fle.lyon@lacimade.org</a> pour annuler.</p>');
+           '<p>Venez à l’heure au 33 Rue Imbert-Colomès (Lyon 2eme). <b>Masque obligatoire</b> mais nous pourrons vous en fournir si vous n’en avez pas :).</p><p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à <a href="mailto:fle.lyon@lacimade.org">fle.lyon@lacimade.org</a> pour annuler.</p>',
+           4);
    ?>
 
   </body>

@@ -1,7 +1,7 @@
 <?php
-function display_td($day, $hour, $hours_count, $horaire) {
+function display_td($day, $hour, $hours_count, $horaire, $max) {
   $slot = $day  . ' à ' . $hour;
-  $complet = complet($slot, $hours_count);
+  $complet = complet($slot, $hours_count, $max);
   echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
   echo '          <input type="radio" name="horaire" id="' . $slot . '" value="' . $slot . '"' . ($complet ? ' disabled' : '') . (($horaire == $slot) ? ' checked' : '') . '>'."\n";
   echo '          <label style="margin-bottom: 0" for="' . $slot . '"' . ($complet ? ' disabled' : '') . '>' . $hour . '</label>'."\n";
@@ -9,11 +9,11 @@ function display_td($day, $hour, $hours_count, $horaire) {
   echo '          </td>'."\n";
 }
 
-function complet($hour, $hours_count) {
-  return isset($hours_count[$hour]) && ($hours_count[$hour] >= 4);
+function complet($hour, $hours_count, $max) {
+  return isset($hours_count[$hour]) && ($hours_count[$hour] >= $max);
 }
 
-function do_page($csv_file, $days, $hour_slots, $info_html, $success_html) {
+function do_page($csv_file, $days, $hour_slots, $info_html, $success_html, $max) {
   if (!(is_writable($csv_file) && is_readable($csv_file))) {
     echo "<div class='error'>\n";
     echo "<p>Le fichier des rendez-vous n'est pas accessible !!</p>";
@@ -51,7 +51,7 @@ function do_page($csv_file, $days, $hour_slots, $info_html, $success_html) {
        $error .= "<p>Choisissez un créneau pour le rendez-vous.</p>\n";
      }
   
-    if (complet($horaire, $hours_count)) {
+    if (complet($horaire, $hours_count, $max)) {
        $error .= "<p>Choisissez un jour et une heure pour le rendez-vous.</p>\n";
     }
   
@@ -102,7 +102,7 @@ function do_page($csv_file, $days, $hour_slots, $info_html, $success_html) {
       foreach ($hour_slots as $hour_slot) {
        echo '<tr>';
        foreach ($days as $day) {
-         display_td($day, $hour_slot, $hours_count, $horaire);
+         display_td($day, $hour_slot, $hours_count, $horaire, $max);
        }
        echo '</tr>';
      }
