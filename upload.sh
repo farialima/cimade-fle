@@ -7,13 +7,11 @@ put resultat.html
 #mkdir fle
 put fle/index.php fle/index.php
 #mkdir fle/resultats
-rm  fle/resultats/index.html
 put fle/resultats/index.php fle/resultats/index.php
 
 #mkdir benevoles
 put benevoles/index.php benevoles/index.php
 #mkdir benevoles/resultats
-rm  benevoles/resultats/index.html
 put benevoles/resultats/index.php benevoles/resultats/index.php
 
 #also getting the latest results...
