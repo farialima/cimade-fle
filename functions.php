@@ -1,14 +1,4 @@
 <?php
-function display_td($day, $hour, $hours_count, $horaire, $max) {
-  $slot = $day  . ' à ' . $hour;
-  $complet = complet($slot, $hours_count, $max);
-  echo '          <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
-  echo '          <input type="radio" name="horaire" id="' . $slot . '" value="' . $slot . '"' . ($complet ? ' disabled' : '') . (($horaire == $slot) ? ' checked' : '') . '>'."\n";
-  echo '          <label style="margin-bottom: 0" for="' . $slot . '"' . ($complet ? ' disabled' : '') . '>' . $hour . '</label>'."\n";
-  echo '          ' . ($complet ? 'Complet' : 'Disponible')."\n";
-  echo '          </td>'."\n";
-}
-
 function complet($hour, $hours_count, $max) {
   return isset($hours_count[$hour]) && ($hours_count[$hour] >= $max);
 }
@@ -98,14 +88,20 @@ function do_page($csv_file, $days, $hour_slots, $info_html, $success_html, $max)
      </tr>
      <?php
       foreach ($hour_slots as $hour_slot) {
-       echo '<tr>';
+       echo '    <tr>'."\n";
        foreach ($days as $day) {
-         display_td($day, $hour_slot, $hours_count, $horaire, $max);
+         $slot = $day  . ' à ' . $hour_slot;
+         $complet = complet($slot, $hours_count, $max);
+         echo '       <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
+         echo '          <input type="radio" name="horaire" id="' . $slot . '" value="' . $slot . '"' . ($complet ? ' disabled' : '') . (($horaire == $slot) ? ' checked' : '') . '>'."\n";
+         echo '          <label style="margin-bottom: 0" for="' . $slot . '"' . ($complet ? ' disabled' : '') . '>' . $hour_slot . '</label>'."\n";
+         echo '       <br/>' . ($complet ? 'Complet' : 'Disponible')."\n";
+         echo '       </td>'."\n";
        }
-       echo '</tr>';
+       echo '    </tr>'."\n";
      }
      ?>
-   </table>  
+   </table>
  </form>
  <?php  } // if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error)
 } // function do_page($csv_file, $days, $hour_slots, $info_html, $success_html)
