@@ -1,6 +1,10 @@
 <!doctype html>
 <head>
-  <title>R&eacute;sultats des rendez-vous</title>
+  <!-- NOTE: This file is not meant to be used directly because it loads the .csv file with a relative path "../rendezvous.csv".
+      Instead, it is to be included (as PHP) at the "right" place. Ugly but working :) -->
+
+
+<title>R&eacute;sultats des rendez-vous</title>
   <style type="text/css">
     html, body {
       height: 100%;
@@ -21,7 +25,7 @@
 <body>
   <h2>R&eacute;sultats des rendez-vous</h2>
 
-  <p>T&eacute;l&eacute;chargez les r&eacute;sultats en format CSV <a href="../rendezvous.csv">ici</a>.</p>
+  <p>T&eacute;l&eacute;chargez les r&eacute;sultats en format CSV <a id="download-link" href="../rendezvous.csv">ici</a>.</p>
   <div id="handsontable-container"></div>
 
   <script src="https://cdn.jsdelivr.net/handsontable/0.28.4/handsontable.full.min.js"></script>
@@ -30,10 +34,13 @@
 /* global FileReader, Papa, Handsontable */
 
 var handsontableContainer = document.getElementById('handsontable-container')
-
+var downloadLink = document.getElementById("download-link");
 window.onload = function () {
+  // make URL unique to force refresh
+  downloadLink.href += '?' + Math.random();
+
   var request = new XMLHttpRequest();
-  request.open('GET', '../rendezvous.csv', true);
+  request.open('GET', downloadLink.href, true);
   request.responseType = 'blob';
   request.onload = function() {
     var reader = new FileReader();
@@ -45,7 +52,6 @@ window.onload = function () {
         skipEmptyLines: true
       })
 
-      // reset container
       handsontableContainer.innerHTML = ''
       handsontableContainer.className = ''
 
