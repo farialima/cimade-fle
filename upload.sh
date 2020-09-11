@@ -6,13 +6,17 @@ put resultat.html
 
 #mkdir fle
 put fle/index.php fle/index.php
-#mkdir fle/resultats
-put fle/resultats/index.php fle/resultats/index.php
+rm fle/resultats/index.php
+rmdir fle/resultats
+put fle/resultats fle/resultats
+put fle/resultats.php fle/resultats.php
 
 #mkdir benevoles
 put benevoles/index.php benevoles/index.php
-#mkdir benevoles/resultats
-put benevoles/resultats/index.php benevoles/resultats/index.php
+rm benevoles/resultats/index.php
+rmdir benevoles/resultats
+put benevoles/resultats benevoles/resultats
+put benevoles/resultats.php benevoles/resultats.php
 
 #also getting the latest results...
 get fle/rendezvous.csv fle/rendezvous.csv
