@@ -35,7 +35,7 @@
    $csv_file = dirname(__FILE__).DIRECTORY_SEPARATOR.'rendezvous.csv';
 
    do_page($csv_file, $days, $hour_slots, 
-           "<p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email&nbsp;; et choisir un jour et une heure de rendez-vous.</p>\n      <p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l’heure de votre rendez-vous. Merci !</p>",
+           "<p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email&nbsp;; et choisir un jour et une heure de rendez-vous.</p>\n      <p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l’heure de votre rendez-vous. Merci !</p>\n<p>Plus d'information sur les cours de français <a href=\"https://www.lacimade.org/activite/les-ateliers-socio-linguistiques-a-s-l/\">ici</a>.</p>",
            '<p>Venez à l’heure au 33 Rue Imbert-Colomès (Lyon 2eme). <b>Masque obligatoire</b> mais nous pourrons vous en fournir si vous n’en avez pas :).</p><p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à <a href="mailto:fle.lyon@lacimade.org">fle.lyon@lacimade.org</a> pour annuler.</p>',
            4);
    ?>
