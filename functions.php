@@ -9,11 +9,13 @@ function do_page($csv_file, $days, $hour_slots, $info_html, $success_html, $max)
     echo "<p>Le fichier des rendez-vous n'est pas accessible !!</p>";
     echo "</div>\n";
   }
+  $noms = array();
   $telephones = array();
   $emails = array();
   $hours = array();
   if (($handle = fopen($csv_file, "r")) !== FALSE) {
     while (($data = fgetcsv($handle)) !== FALSE) {
+      $noms[] = $data[0]." ".$data[1];
       $telephones[] = preg_replace("/[^0-9]/", "", $data[2]);
       $emails[] = $data[3];
       $hours[] = $data[4];
@@ -47,13 +49,18 @@ function do_page($csv_file, $days, $hour_slots, $info_html, $success_html, $max)
        $error .= "<p>Ce jour et heure (".$horaire.") est complet. Choisissez un autre jour et heure pour le rendez-vous.</p>\n";
     }
   
+    if (in_array($prenom . " ". $nom, $noms)) {
+       $error .= "<p>Un rendez-vous a déjà été pris pour ce prénom et nom. Vous ne pouvez pas vous inscrire une deuxième fois. Si c’est une erreur, contactez-nous à <a href=\"mailto:lyon@lacimade.org\">lyon@lacimade.org</a>.</p>\n";
+    }
+    /* Allow reusing email and phones: sometimes people do that (e.g. Armee du Salut, for other people)
     if ((strlen($num) > 1) && in_array($num, $telephones)) {
        $error .= "<p>Un rendez-vous a déjà été pris avec ce numéro de téléphone. Vous ne pouvez pas vous inscrire une deuxième fois. Si c’est une erreur, contactez-nous à <a href=\"mailto:lyon@lacimade.org\">lyon@lacimade.org</a>.</p>\n";
     }
     elseif ((strlen($email) > 1) && in_array($email, $emails)) {
        $error .= "<p>Un rendez-vous a déjà été pris avec cet email. Vous ne pouvez pas vous inscrire une deuxième fois. Si c’est une erreur, contactez-nous à <a href=\"mailto:lyon@lacimade.org\">lyon@lacimade.org</a>.</p>\n";
     }
-    
+    */
+
     if (!$error) {
       $fp = fopen($csv_file, 'aw');
       fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
