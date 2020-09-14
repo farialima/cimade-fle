@@ -46,7 +46,7 @@ window.onload = function () {
     var reader = new FileReader();
     reader.readAsText(request.response);
     reader.onload =  function(e) {
-      var csv = 'Pr&eacute;nom,nom,t&eacute;l&eacute;phone,email,horaire\n' + e.target.result
+      var csv = 'Pr&eacute;nom,Nom,T&eacute;l&eacute;phone,E-mail,Horaire,Cr&eacute;&eacute; le\n' + e.target.result
       var data = Papa.parse(csv, {
         header: true,
         skipEmptyLines: true

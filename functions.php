@@ -63,7 +63,7 @@ function do_page($csv_file, $days, $info_html, $success_html, $max) {
 
     if (!$error) {
       $fp = fopen($csv_file, 'aw');
-      fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire));
+      fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire, date("Y-m-d H:i:s", time())));
       fclose($fp);
   
       echo "<p/>";
