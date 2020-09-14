@@ -3,7 +3,7 @@ function complet($hour, $hours_count, $max) {
   return isset($hours_count[$hour]) && ($hours_count[$hour] >= $max);
 }
 
-function do_page($csv_file, $days, $hour_slots, $info_html, $success_html, $max) {
+function do_page($csv_file, $days, $info_html, $success_html, $max) {
   if (!(is_writable($csv_file) && is_readable($csv_file))) {
     echo "<div class='error'>\n";
     echo "<p>Le fichier des rendez-vous n'est pas accessible !!</p>";
@@ -97,28 +97,23 @@ function do_page($csv_file, $days, $hour_slots, $info_html, $success_html, $max)
    <br/>
    <table class="horaire" border="3" cellspacing="4" align="left">
      <caption><input class="submit" style="" type="submit" value="Confirmer le rendez-vous"></caption>
-     <tr>
+     <tbody>
        <?php
-       foreach ($days as $day) {
-         echo '<th>' . $day . '</th>';
-       }
-       ?>
-     </tr>
-     <?php
-      foreach ($hour_slots as $hour_slot) {
-       echo '    <tr>'."\n";
-       foreach ($days as $day) {
-         $slot = $day  . ' à ' . $hour_slot;
-         $complet = complet($slot, $hours_count, $max);
-         echo '       <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
-         echo '          <input type="radio" name="horaire" id="' . $slot . '" value="' . $slot . '"' . ($complet ? ' disabled' : '') . (($horaire == $slot) ? ' checked' : '') . '>'."\n";
-         echo '          <label style="margin-bottom: 0" for="' . $slot . '"' . ($complet ? ' disabled' : '') . '>' . $hour_slot . '</label>'."\n";
-         echo '       <br/>' . ($complet ? 'Complet' : 'Disponible')."\n";
-         echo '       </td>'."\n";
-       }
-       echo '    </tr>'."\n";
-     }
+       foreach ($days as $day => $hour_slots) {
+         echo '<tr><td class="th">' . $day . '</td>';
+         foreach ($hour_slots as $hour_slot) {
+           $slot = $day  . ' à ' . $hour_slot;
+           $complet = complet($slot, $hours_count, $max);
+           echo '       <td class="' . ($complet ? 'complet' : 'libre') . '">'."\n";
+           echo '          <input type="radio" name="horaire" id="' . $slot . '" value="' . $slot . '"' . ($complet ? ' disabled' : '') . (($horaire == $slot) ? ' checked' : '') . '>'."\n";
+           echo '          <label style="margin-bottom: 0" for="' . $slot . '"' . ($complet ? ' disabled' : '') . '>' . $hour_slot . '</label>'."\n";
+           echo '       <br/>' . ($complet ? 'Complet' : 'Disponible')."\n";
+           echo '       </td>'."\n";
+         }
+         echo '    </tr>'."\n";
+      }
      ?>
+     </tbody>
    </table>
  </form>
  <?php  } // if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error)

@@ -17,24 +17,23 @@
    date_default_timezone_set('Europe/Paris');
    $current_date = new DateTime(date("Y-m-d H:i:s", time()));
    $days = array();
+   $hours = array("14h", "14h30", "15h", "15h30", "16h", "16h30");
    if ($current_date < new DateTime('2020-09-14 12:00:00')) {
-     $days[] = 'Lundi 14 septembre';
+     $days['Lundi 14 septembre'] = $hours;
    }
    if ($current_date < new DateTime('2020-09-15 12:00:00')) {
-     $days[] = 'Mardi 15 septembre';
+     $days['Mardi 15 septembre'] = $hours;
    }
    if ($current_date < new DateTime('2020-09-21 12:00:00')) {
-     $days[] = 'Lundi 21 septembre';
+     $days['Lundi 21 septembre'] = $hours;
    }
    if ($current_date < new DateTime('2020-09-22 12:00:00')) {
-     $days[] = 'Mardi 22 septembre';
+     $days['Mardi 22 septembre'] = $hours;
    }
-
-   $hour_slots = array("14h", "14h30", "15h", "15h30", "16h", "16h30");
 
    $csv_file = dirname(__FILE__).DIRECTORY_SEPARATOR.'rendezvous.csv';
 
-   do_page($csv_file, $days, $hour_slots, 
+   do_page($csv_file, $days, 
            "<p>Pour venir vous informer et vous inscrire, il faut prendre rendez-vous. Merci d’écrire votre nom, prénom, et votre téléphone ou email&nbsp;; et choisir un jour et une heure de rendez-vous.</p>\n      <p>Venez au 33 Rue Imbert-Colomès (Lyon) le jour et l’heure de votre rendez-vous. Merci !</p>\n<p>Plus d'information sur les cours de français <a href=\"https://www.lacimade.org/activite/les-ateliers-socio-linguistiques-a-s-l/\">ici</a>.</p>",
            '<p>Venez à l’heure au 33 Rue Imbert-Colomès (Lyon 2eme). <b>Masque obligatoire</b> mais nous pourrons vous en fournir si vous n’en avez pas :).</p><p>Si vous ne pouvez pas venir, merci de nous envoyer un mail à <a href="mailto:fle.lyon@lacimade.org">fle.lyon@lacimade.org</a> pour annuler.</p>',
            4);

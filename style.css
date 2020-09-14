@@ -40,6 +40,13 @@ td, th {
   padding: 0.5em 1em 0.5em 1em;
 }
 
-th {
+tr {
+  border: solid;
+  border-width: 2px 0;
+}
+
+.th {
+  text-align: left;
+  padding: 0.5em 1em 0.5em 1em;
   background-color: #a8e0f7;
 }
