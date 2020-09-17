@@ -25,7 +25,10 @@
    }
 
    if ($current_date < new DateTime('2020-09-26 10:00:00')) {
-     $days['Samedi 26 septembre'] = array("10h30");
+     $days['Samedi 26 septembre'] = array("10h30", "14h30");
+   }
+   elseif ($current_date < new DateTime('2020-09-26 13:30:00')) {
+     $days['Samedi 19 septembre'] = array("14h30");
    }
 
    $csv_file = dirname(__FILE__).DIRECTORY_SEPARATOR.'rendezvous.csv';
