@@ -3,6 +3,7 @@ function complet($hour, $hours_count, $max) {
   return isset($hours_count[$hour]) && ($hours_count[$hour] >= $max);
 }
 
+// $no_meeting_html, $no_meeting_success_html, 
 function do_page($csv_file, $days, $info_html, $success_html, $max) {
   if (!(is_writable($csv_file) && is_readable($csv_file))) {
     echo "<div class='error'>\n";
@@ -41,16 +42,22 @@ function do_page($csv_file, $days, $info_html, $success_html, $max) {
     if ((strlen($num) < 6) && (!filter_var($email, FILTER_VALIDATE_EMAIL)) ) {
        $error .= "<p>Entrez un numéro de téléphone ou un email valide.</p>\n";
     }
-    if (!$horaire) {
-       $error .= "<p>Choisissez un jour et une heure pour le rendez-vous.</p>\n";
-     }
-  
-    if (complet($horaire, $hours_count, $max)) {
-       $error .= "<p>Ce jour et heure (".$horaire.") est complet. Choisissez un autre jour et heure pour le rendez-vous.</p>\n";
+    if (empty($days)) {
+      if ($horaire) {
+         $error .= "<p>Il n'est plus possible de choisir un rendez-vous. A la place, donnez uniquement vos coordonnees et nous vous recontacterons.</p>\n";
+      }      
     }
+    else {
+       if (!$horaire) {
+         $error .= "<p>Choisissez un jour et une heure pour le rendez-vous.</p>\n";
+       }
   
-    if (in_array($prenom . " ". $nom, $noms)) {
-       $error .= "<p>Un rendez-vous a déjà été pris pour ce prénom et nom. Vous ne pouvez pas vous inscrire une deuxième fois. Si c’est une erreur, contactez-nous à <a href=\"mailto:lyon@lacimade.org\">lyon@lacimade.org</a>.</p>\n";
+      if (complet($horaire, $hours_count, $max)) {
+         $error .= "<p>Ce jour et heure (".$horaire.") est complet. Choisissez un autre jour et heure pour le rendez-vous.</p>\n";
+      }
+      if (in_array($prenom . " ". $nom, $noms)) {
+         $error .= "<p>Un rendez-vous a déjà été pris pour ce prénom et nom. Vous ne pouvez pas vous inscrire une deuxième fois. Si c’est une erreur, contactez-nous à <a href=\"mailto:lyon@lacimade.org\">lyon@lacimade.org</a>.</p>\n";
+      }
     }
     /* Allow reusing email and phones: sometimes people do that (e.g. Armee du Salut, for other people)
     if ((strlen($num) > 1) && in_array($num, $telephones)) {
@@ -65,17 +72,30 @@ function do_page($csv_file, $days, $info_html, $success_html, $max) {
       $fp = fopen($csv_file, 'aw');
       fputcsv($fp, array($prenom, $nom, $telephone, $email, $horaire, date("Y-m-d H:i:s", time())));
       fclose($fp);
-  
-      echo "<p/>";
-      echo "<h3>Votre rendez-vous est confirmé</h3>";
-      echo "<p/>";
-      echo "<p>Votre rendez-vous a été pris pour le <b>" . $horaire . "</b>, pour " . $prenom . " " . $nom . " (" . $email . (($email && $telephone) ? ", " : "") . $telephone . ").</p>";
-      echo $success_html;
+
+      if ($horaire) {
+        echo "<p/>";
+        echo "<h3>Votre rendez-vous est confirmé</h3>";
+        echo "<p/>";
+        echo "<p>Votre rendez-vous a été pris pour le <b>" . $horaire . "</b>, pour " . $prenom . " " . $nom . " (" . $email . (($email && $telephone) ? ", " : "") . $telephone . ").</p>";
+        echo $success_html;
+      }
+      else {
+        echo "<p/>";
+        echo "<h3>Nous avons noté vos coordonnées.</h3>";
+        echo "<p/>";
+        echo "<p>Nous vous recontacterons si nous organisons de nouvelles sessions d'inscription.</p>";
+      }
     }
   } // ... "POST"
   
   if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
-    echo $info_html;
+    if (empty($days)) {
+      echo "<p>Toutes les sessions d’information et d’inscription de rentrée 2020 sont passées.</p><p>Nous organiserons peut-être de nouvelles sessions d’information et d’inscription plus tard dans l’année (fin 2020 ou debut 2021). Vous pouvez laisser vos nom, prénom, et téléphone ou email, et nous vous contacterons si et quand nous en organiserons.</p>";
+    }
+    else {  
+      echo $info_html;
+    }
     echo "<p><p>\n";
     if ($error) {
       echo "<div class='error'>\n";
@@ -96,7 +116,7 @@ function do_page($csv_file, $days, $info_html, $success_html, $max) {
    <input type="text" name="email" id="email" placeholder="nom@adresse.com" value="<?php echo htmlentities($email) ?>">
    <br/>
    <table class="horaire" border="3" cellspacing="4" align="left">
-     <caption><input class="submit" style="" type="submit" value="Confirmer le rendez-vous"></caption>
+     <caption><input class="submit" style="" type="submit" value="<?php echo (empty($days) ? "Enregistrer" : "Confirmer le rendez-vous"); ?>"></caption>
      <tbody>
        <?php
        foreach ($days as $day => $hour_slots) {
