@@ -4,7 +4,7 @@ function complet($hour, $hours_count, $max) {
 }
 
 // $no_meeting_html, $no_meeting_success_html, 
-function do_page($csv_file, $days, $info_html, $success_html, $max) {
+function do_page($csv_file, $days, $info_html, $success_html, $max, $unavailable_html = null) {
   if (!(is_writable($csv_file) && is_readable($csv_file))) {
     echo "<div class='error'>\n";
     echo "<p>Le fichier des rendez-vous n'est pas accessible !!</p>";
@@ -91,7 +91,7 @@ function do_page($csv_file, $days, $info_html, $success_html, $max) {
   
   if (!($_SERVER["REQUEST_METHOD"] == "POST") || $error) {
     if (empty($days)) {
-      echo "<p>Toutes les sessions d’information et d’inscription de rentrée 2020 sont passées.</p><p>Nous organiserons peut-être de nouvelles sessions d’information et d’inscription plus tard dans l’année (fin 2020 ou debut 2021). Vous pouvez laisser vos nom, prénom, et téléphone ou email, et nous vous contacterons si et quand nous en organiserons.</p>";
+      echo $unavailable_html ?: "<p>Toutes les sessions d’information et d’inscription de rentrée 2020 sont passées.</p><p>Nous organiserons peut-être de nouvelles sessions d’information et d’inscription plus tard dans l’année (fin 2020 ou debut 2021). Vous pouvez laisser vos nom, prénom, et téléphone ou email, et nous vous contacterons si et quand nous en organiserons.</p>";
     }
     else {  
       echo $info_html;
