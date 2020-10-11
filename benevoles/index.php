@@ -17,19 +17,6 @@
    date_default_timezone_set('Europe/Paris');
    $current_date = new DateTime(date("Y-m-d H:i:s", time()));
    $days = array();
-   if ($current_date < new DateTime('2020-09-19 10:00:00')) {
-     $days['Samedi 19 septembre'] = array("10h30", "14h30");
-   }
-   elseif ($current_date < new DateTime('2020-09-19 13:30:00')) {
-     $days['Samedi 19 septembre'] = array("14h30");
-   }
-
-   if ($current_date < new DateTime('2020-09-26 10:00:00')) {
-     $days['Samedi 26 septembre'] = array("10h30", "14h30");
-   }
-   elseif ($current_date < new DateTime('2020-09-26 13:30:00')) {
-     $days['Samedi 19 septembre'] = array("14h30");
-   }
 
    if (($current_date > new DateTime('2020-10-28 01:00:00')) &&
        ($current_date < new DateTime('2020-11-11 12:00:00'))) {
