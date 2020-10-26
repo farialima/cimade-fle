@@ -18,7 +18,7 @@
    $current_date = new DateTime(date("Y-m-d H:i:s", time()));
    $days = array();
 
-   if (($current_date > new DateTime('2020-10-28 01:00:00')) &&
+   if (($current_date > new DateTime('2020-11-11 01:00:00')) && // XXX to modify
        ($current_date < new DateTime('2020-11-11 12:00:00'))) {
        $days['Mercredi 11 novembre'] = array("16h00", "18h30");
    }
